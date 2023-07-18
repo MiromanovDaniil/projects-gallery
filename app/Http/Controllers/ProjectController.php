@@ -14,7 +14,7 @@ class ProjectController extends Controller
      */
     public function index(): Response 
     {
-      return Inertia::render('ProjectsList/Index', [
+      return Inertia::render('Projects/Index', [
         //
     ]);
     }
@@ -24,7 +24,9 @@ class ProjectController extends Controller
      */
     public function create()
     {
+      return Inertia::render('Projects/Create', [
         //
+    ]);
     }
 
     /**
