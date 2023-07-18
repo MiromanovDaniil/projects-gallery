@@ -6,6 +6,7 @@ use App\Models\Project;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -63,7 +64,10 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return Inertia::render('Projects/Edit',[
+          'project' => $project,
+          'image' => asset('storage/'. $project->image)
+        ]);
     }
 
     /**
@@ -71,8 +75,19 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        //
+       $image = $project->image;
+       if ($request->hasFile('image')) {
+          Storage::delete('public/'. $project->image);
+          $image = $request->file('image')->store('topics', 'public');
+       }
+       $project->update([
+          'title' => $request->input('title'),
+          'description' => $request->input('description'),
+          'image' => $image,
+       ]);
+       return redirect('/projects');
     }
+    
 
     /**
      * Remove the specified resource from storage.

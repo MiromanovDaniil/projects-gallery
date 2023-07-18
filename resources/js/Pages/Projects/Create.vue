@@ -27,7 +27,7 @@
                                             class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md"
                                         >
                                             <input
-                                            v-model="form.title"
+                                                v-model="form.title"
                                                 type="text"
                                                 name="title"
                                                 id="title"
@@ -72,6 +72,7 @@
                                     >
                                         <div class="text-center">
                                             <svg
+                                                v-if="!image"
                                                 class="mx-auto h-12 w-12 text-gray-300"
                                                 viewBox="0 0 24 24"
                                                 fill="currentColor"
@@ -83,8 +84,12 @@
                                                     clip-rule="evenodd"
                                                 />
                                             </svg>
+                                            <img v-if="image"
+                                                :src="image"
+                                                class="w-32 h-32 rounded"
+                                            />
                                             <div
-                                                class="mt-4 flex text-sm leading-6 text-gray-600"
+                                                class="mt-4 flex text-sm leading-6 text-gray-600 justify-center"
                                             >
                                                 <label
                                                     for="image"
@@ -93,18 +98,18 @@
                                                     <span>Upload a file</span>
                                                     <input
                                                         id="image"
-                                                        @input="form.image = $event.target.files[0]"
+                                                        @input="
+                                                            form.image =
+                                                                $event.target.files[0]
+                                                        "
                                                         name="image"
                                                         type="file"
                                                         class="sr-only"
                                                     />
                                                 </label>
-                                                <p class="pl-1">
-                                                    or drag and drop
-                                                </p>
                                             </div>
                                             <p
-                                                class="text-xs leading-5 text-gray-600"
+                                                class="text-xs leading-5 text-gray-600 mt-3"
                                             >
                                                 PNG, JPG, GIF up to 10MB
                                             </p>
@@ -139,12 +144,12 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, useForm } from "@inertiajs/vue3";
 
 const form = useForm({
-  title: null,
-  description: null,
-  image: null
-})
+    title: null,
+    description: null,
+    image: null,
+});
 
 function storeProject() {
-  form.post('/projects')
+    form.post("/projects");
 }
 </script>
