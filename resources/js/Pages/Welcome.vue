@@ -1,5 +1,69 @@
+<template>
+    <Head title="Gallery of projects" />
+    <div class="min-h-screen bg-gray-100">
+        <nav
+            class="bg-white border-b border-gray-100 h-24 flex items-center justify-between px-4 py-4"
+        >
+            <h1 class="font-extrabold text-black text-3xl">
+                Gallery of projects
+            </h1>
+            <div v-if="canLogin">
+                <Link
+                    v-if="$page.props.auth.user"
+                    :href="route('dashboard')"
+                    class="font-semibold text-black"
+                    >Account</Link
+                >
+                <template v-else>
+                    <Link
+                        :href="route('login')"
+                        class="font-semibold text-black"
+                        >Log in</Link
+                    >
+
+                    <Link
+                        v-if="canRegister"
+                        :href="route('register')"
+                        class="ml-4 font-semibold text-black"
+                        >Register</Link
+                    >
+                </template>
+            </div>
+        </nav>
+        <main>
+            <div class="flex gap-2 px-2 py-2">
+                <div
+                    v-for="project in projects"
+                    class="max-w-sm bg-white border-2 h-64 w-64 border-gray-200 rounded-lg shadow"
+                >
+                    <a href="#">
+                        <img
+                            class="rounded-t-lg w-32 h-32"
+                            :src="project.image"
+                            alt=""
+                        />
+                    </a>
+                    <hr />
+                    <div class="p-5">
+                        <a href="#">
+                            <h5
+                                class="mb-2 text-2xl font-bold tracking-tight text-black"
+                            >
+                                {{ project.title }}
+                            </h5>
+                        </a>
+                        <p class="mb-3 font-normal text-black">
+                            {{ project.description }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</template>
+
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link } from "@inertiajs/vue3";
 
 defineProps({
     canLogin: {
@@ -16,44 +80,11 @@ defineProps({
         type: String,
         required: true,
     },
+    projects: {
+        type: Array,
+    },
 });
 </script>
-
-<template>
-    <Head title="Welcome" />
-
-    <div
-        class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 selection:bg-red-500 selection:text-white"
-    >
-        <div v-if="canLogin" class="sm:fixed sm:top-0 sm:right-0 p-6 text-right">
-            <Link
-                v-if="$page.props.auth.user"
-                :href="route('dashboard')"
-                class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                >Dashboard</Link
-            >
-
-            <template v-else>
-                <Link
-                    :href="route('login')"
-                    class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                    >Log in</Link
-                >
-
-                <Link
-                    v-if="canRegister"
-                    :href="route('register')"
-                    class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                    >Register</Link
-                >
-            </template>
-        </div>
-
-        <div class="max-w-7xl mx-auto p-6 lg:p-8">
-          <h1 class="font-bold">List of projects</h1>
-        </div>
-    </div>
-</template>
 
 <style>
 .bg-dots-darker {
