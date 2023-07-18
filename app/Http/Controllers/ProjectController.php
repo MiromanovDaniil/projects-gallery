@@ -6,6 +6,7 @@ use App\Models\Project;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Redirect;
 
 class ProjectController extends Controller
 {
@@ -34,7 +35,13 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $image = $request->file('image')->store('topics', 'public');
+        Project::create([
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'image' => $image,
+        ]);
+        return redirect('/projects');
     }
 
     /**

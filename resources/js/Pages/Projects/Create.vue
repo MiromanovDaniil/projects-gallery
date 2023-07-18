@@ -9,16 +9,10 @@
       </template> -->
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="flex justify-end m-2 p-2">
-                    <Link
-                        href="/projects"
-                        class="px-2 py-2 bg-indigo-100 rounded hover:bg-indigo-200"
-                        >Back</Link
-                    >
-                </div>
-                <form>
+                <div class="flex justify-end m-2 p-2"></div>
+                <form @submit.prevent="storeProject">
                     <div class="space-y-12">
-                        <div class=" border-gray-900/10 pb-12">
+                        <div class="border-gray-900/10 pb-12">
                             <div
                                 class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6"
                             >
@@ -32,12 +26,12 @@
                                         <div
                                             class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md"
                                         >
-                                          
                                             <input
+                                            v-model="form.title"
                                                 type="text"
                                                 name="title"
-                                                id="username"
-                                                autocomplete="username"
+                                                id="title"
+                                                autocomplete="title"
                                                 class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                                 placeholder="Type the name of your project"
                                             />
@@ -47,14 +41,15 @@
 
                                 <div class="col-span-full">
                                     <label
-                                        for="about"
+                                        for="description"
                                         class="block text-sm font-medium leading-6 text-gray-900"
                                         >Description</label
                                     >
                                     <div class="mt-2">
                                         <textarea
-                                            id="about"
-                                            name="about"
+                                            v-model="form.description"
+                                            id="description"
+                                            name="description"
                                             rows="3"
                                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         ></textarea>
@@ -92,13 +87,14 @@
                                                 class="mt-4 flex text-sm leading-6 text-gray-600"
                                             >
                                                 <label
-                                                    for="file-upload"
+                                                    for="image"
                                                     class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
                                                 >
                                                     <span>Upload a file</span>
                                                     <input
-                                                        id="file-upload"
-                                                        name="file-upload"
+                                                        id="image"
+                                                        @input="form.image = $event.target.files[0]"
+                                                        name="image"
                                                         type="file"
                                                         class="sr-only"
                                                     />
@@ -119,18 +115,17 @@
                         </div>
                     </div>
 
-                    <div class="mt-6 flex items-center justify-end gap-x-6">
-                        <button
-                            type="button"
-                            class="text-sm font-semibold leading-6 text-gray-900"
+                    <div class="mt-6 flex items-center justify-end gap-x-3">
+                        <Link
+                            href="/projects"
+                            class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            >Back</Link
                         >
-                            Cancel
-                        </button>
                         <button
                             type="submit"
                             class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >
-                           Create
+                            Create
                         </button>
                     </div>
                 </form>
@@ -141,5 +136,15 @@
 
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head, Link } from "@inertiajs/vue3";
+import { Head, Link, useForm } from "@inertiajs/vue3";
+
+const form = useForm({
+  title: null,
+  description: null,
+  image: null
+})
+
+function storeProject() {
+  form.post('/projects')
+}
 </script>

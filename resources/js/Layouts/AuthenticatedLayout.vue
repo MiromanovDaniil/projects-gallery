@@ -148,7 +148,7 @@ const showingNavigationDropdown = ref(false);
                             :href="route('dashboard')"
                             :active="route().current('dashboard')"
                         >
-                            Dashboard
+                            Gallery of projects
                         </ResponsiveNavLink>
                     </div>
 
