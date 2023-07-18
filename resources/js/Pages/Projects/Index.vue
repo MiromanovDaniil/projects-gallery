@@ -30,7 +30,7 @@
                                 <th scope="col" class="px-6 py-3">
                                     Description
                                 </th>
-                                <th scope="col" class="px-6 py-3">Action</th>
+                                <th scope="col" class="px-6 py-3">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -60,16 +60,25 @@
                                     {{ project.title }}
                                 </th>
                                 <td class="px-6 py-4">
-                                    <img :src="project.image" class="w-12 h-12 rounded" />
+                                    <img
+                                        :src="project.image"
+                                        class="w-12 h-12 rounded"
+                                    />
                                 </td>
                                 <td class="px-6 py-4">
                                     {{ project.description }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 flex">
                                     <Link
                                         :href="`/projects/${project.id}/edit`"
-                                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-4"
                                         >Edit</Link
+                                    >
+                                    <Link
+                                        :href="`/projects/${project.id}`"
+                                        method="delete" as="button" type="button"
+                                        class="font-medium text-red-700 dark:text-red-700 hover:underline"
+                                        >Delete</Link
                                     >
                                 </td>
                             </tr>
