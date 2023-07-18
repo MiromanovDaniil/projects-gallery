@@ -96,6 +96,6 @@ class ProjectController extends Controller
     {
       Storage::delete('public/'. $project->image);
       $project->delete();
-      return redirect('/projects');
+          return redirect('/projects');
     }
 }
