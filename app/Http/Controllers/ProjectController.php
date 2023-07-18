@@ -6,7 +6,6 @@ use App\Models\Project;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
-use Redirect;
 
 class ProjectController extends Controller
 {
@@ -16,7 +15,14 @@ class ProjectController extends Controller
     public function index(): Response 
     {
       return Inertia::render('Projects/Index', [
-        //
+        'projects' => Project::all()->map(function($project) {
+          return [
+            'id' => $project->id,
+            'title' => $project->title,
+            'description'=> $project->description,
+            'image' => asset('storage/'. $project->image)
+          ];
+        })
     ]);
     }
 
